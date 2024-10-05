@@ -1,0 +1,146 @@
+Given a dictionary of distinct words and an M x N board where every cell has one character. Find all possible words from the dictionary that can be formed by a sequence of adjacent characters on the board. We can move to any of 8 adjacent characters
+
+Note: While forming a word we can move to any of the 8 adjacent cells. A cell can be used only once in one word.
+
+
+Example 1:
+
+Input: 
+N = 1
+dictionary = {"CAT"}
+R = 3, C = 3
+board = {{C,A,P},{A,N,D},{T,I,E}}
+Output:
+CAT
+Explanation: 
+C A P
+A N D
+T I E
+Words we got is denoted using same color.
+Example 2:
+
+Input:
+N = 4
+dictionary = {"GEEKS","FOR","QUIZ","GO"}
+R = 3, C = 3 
+board = {{G,I,Z},{U,E,K},{Q,S,E}}
+Output:
+GEEKS QUIZ
+Explanation: 
+G I Z
+U E K
+Q S E 
+Words we got is denoted using same color.
+
+Your task:
+You dont need to read input or print anything. Your task is to complete the function wordBoggle() which takes the dictionary contaning N space-separated strings and R*C board as input parameters and returns a list of words that exist on the board in lexicographical order.
+
+
+Expected Time Complexity: O(N*W + R*C^2)
+Expected Auxiliary Space: O(N*W + R*C)
+
+
+Constraints:
+1 ≤ N ≤ 15
+1 ≤ R, C ≤ 50
+1 ≤ length of Word ≤ 60
+Each word can consist of both lowercase and uppercase letters.
+
+CODE-
+
+class Solution
+{
+    public String[] wordBoggle(char board[][], String[] dictionary)
+    {
+        int n = dictionary.length;
+        List<String> ans = new ArrayList<>();
+      for(int i = 0;i < n;i++ )
+    {
+        
+        if(isThere(board, dictionary[i]))
+        {
+            ans.add(dictionary[i]);
+        }
+        
+    }
+    String[] ans1 = new String[ans.size()];
+    int i = 0;
+    for(String s: ans)
+    {
+      ans1[i] = s;
+      i++;
+    }
+    return ans1;
+    }
+    boolean isThere(char board[][], String s)
+    {
+  
+        char ch = s.charAt(0);
+        s = s.substring(1);
+        for(int i = 0;i < board.length;i++){
+            for(int j = 0;j < board[0].length;j++)
+            {
+               if(board[i][j] == ch) 
+               {
+                  
+                   boolean vis[][] = new boolean[board.length][board[0].length];
+                   vis[i][j] = true;
+                   if(find(board, vis, s, i, j ))
+                   {
+                      return true;
+                   }
+                   else
+                   {
+                       vis[i][j] = false;
+                   }
+               }
+            }
+        }
+        return false;
+    }
+    boolean find(char board[][], boolean vis[][], String s, int r, int c)
+    {
+        if(s.isEmpty())
+        {
+            return true;
+        }
+        char p = s.charAt(0);
+        s = s.substring(1);
+       
+      int row[] = {-1, -1, -1, 0, 1, 1, 1, 0};
+      int col[] = {-1, 0, 1, 1, 1, 0, -1, -1};
+      for(int i = 0;i < 8;i++)
+      {
+          int newrow = row[i] + r;
+          int newcol = col[i] + c;
+          if(isValid(board, vis, newrow, newcol, p))
+          {
+               
+              vis[newrow][newcol] = true;
+              if(find(board, vis, s, newrow, newcol))
+              {
+                  
+                  return true;
+              }
+              else
+              {
+                 vis[newrow][newcol] = false;
+              }
+              
+              
+          }
+      }
+        
+        return false;
+    }
+    boolean isValid(char board[][],boolean vis[][],  int row ,int col, char ch )
+    {
+        if(row >= board.length || col >= board[0].length || col < 0 || row < 0 || board[row][col] != ch || vis[row][col] )
+        {
+            return false;
+        }
+        return true;
+        
+    }
+}
+
