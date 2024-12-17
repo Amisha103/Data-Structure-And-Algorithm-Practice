@@ -1,0 +1,70 @@
+Problem statement
+Every year, on the day of Christmas, Everyone at The Dunder Mifflin paper company exchanges gifts. Jim always gives Pam the best Christmas gifts. But this time, Pam decided to give Jim a string having at most two different characters. Pam has a ternary string ‘s’. She wants to know how many total numbers of contiguous strings she can make from ‘s’ to gift Jim.
+
+A ternary string is a string that does not have more than three different characters.
+
+For Example :
+Let s = “abbc”
+
+Now In this example, Pam can make the following substrings: 
+a, b, b, c, ab, bb, bc, abb, bbc.
+There are a total of 9 strings that she can gift Jim. Hence the answer is 9.
+Detailed explanation ( Input/output format, Notes, Images )
+Constraints :
+1 <= T <= 100
+1 <= |S| <= 10^4, where |S| denotes the length of string S.
+
+Time limit: 1 sec
+Sample Input 1 :
+2
+abc
+aabc
+Sample Output 1 :
+5
+8
+Explanation For Sample Output 1 :
+For the first test case, she can make strings: a, b, c, ab, bc.
+Hence the answer is 5.
+
+For the second test case, she can make the following strings - a, a, b, c, aa, ab, bc, and aab. 
+Hence the final answer is 8.
+Sample Input 2 :
+2
+jim
+beet
+Sample Output 2 :
+5
+9
+
+Solution-
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Solution 
+{
+	public static int totalStrings(String s) 
+    { int n = s.length();
+	int cnt = 0;
+	int start = 0;
+			HashMap<Character, Integer> map = new HashMap<>();
+		for(int i = 0;i < n;i++)
+		{
+
+		char c = s.charAt(i);
+		map.put(c, map.getOrDefault(c, 0) + 1);
+		while(map.size() > 2)
+		{
+				map.put(s.charAt(start), map.get(s.charAt(start)) - 1);
+			
+			if(map.get(s.charAt(start)) == 0)
+			{
+map.remove(s.charAt(start));
+			}
+			start++;
+		}
+cnt = cnt + (i - start + 1);
+		}
+		return cnt ;
+		
+	}
+}
