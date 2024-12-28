@@ -1,0 +1,64 @@
+Find All Triplets with Zero Sum
+Difficulty: MediumAccuracy: 50.36%Submissions: 36K+Points: 4
+Given an array arr[], find all possible triplets i, j, k in the arr[] whose sum of elements is equals to zero. 
+Returned triplet should also be internally sorted i.e. i<j<k.
+
+Examples:
+
+Input: arr[] = [0, -1, 2, -3, 1]
+Output: [[0, 1, 4], [2, 3, 4]]
+Explanation: Triplets with sum 0 are:
+arr[0] + arr[1] + arr[4] = 0 + (-1) + 1 = 0
+arr[2] + arr[3] + arr[4] = 2 + (-3) + 1 = 0
+Input: arr[] = [1, -2, 1, 0, 5]
+Output: [[0, 1, 2]]
+Explanation: Only triplet which satisfies the condition is arr[0] + arr[1] + arr[2] = 1 + (-2) + 1 = 0
+Input: arr[] = [2, 3, 1, 0, 5]
+Output: [[]]
+Explanation: There is no triplet with sum 0.
+Constraints:
+3 <= arr.size() <= 103
+-104 <= arr[i] <= 104
+
+Solution-
+class Solution {
+    public List<List<Integer>> findTriplets(int[] arr) {
+     List<List<Integer>> ans = new ArrayList<>();
+        Set<List<Integer>> set = new HashSet<>();
+     HashMap<Integer, Integer> map = new HashMap<>();
+     int n = arr.length;
+     for(int i = 0;i < n;i++)
+     {
+         map.put(arr[i], i);
+     }
+     for(int i = 0;i < n;i++)
+     {
+         for(int j = i + 1;j < n;j++)
+         {
+             
+             int sum = arr[i] + arr[j];
+             int k = (-1)*(sum);
+             if(map.containsKey(k) && map.get(k) != i && map.get(k) != j)
+             {
+                 ArrayList<Integer> temp = new ArrayList<>();
+                 temp.add(i);
+                 temp.add(j);
+                 temp.add(map.get(k));
+                 Collections.sort(temp);
+                 set.add(temp);
+             }
+         }
+        
+        
+     }
+     if(set.isEmpty())
+     {
+         return ans;
+     }
+     for(List<Integer> l: set)
+     {
+         ans.add(l);
+     }
+     return ans;
+    }
+}
