@@ -1,0 +1,70 @@
+Number Pattern
+Easy
+40/40
+Average time to solve is 10m
+Contributed by
+Asked in companies
+Problem statement
+Write a program such that you are given an integer ‘N’ and print the pattern consisting of ‘N’ lines.
+
+For Example :
+If we are given N=3
+The pattern is :
+1 2 3 10 11 12 
+4 5 8 9 
+6 7 
+Detailed explanation ( Input/output format, Notes, Images )
+Constraints :
+1 <= N <= 1000
+
+Time Limit : 1sec
+Sample Input 1 :
+2 
+Sample Output 1 :
+1 2 5 6 
+3 4 
+Sample Input 2 :
+4
+Sample Output 2 :
+1 2 3 4 17 18 19 20 
+5 6 7 14 15 16 
+8 9 12 13 
+10 11 
+
+
+Solution-import java.util.* ;
+import java.io.*; 
+public class Solution 
+{
+    public static ArrayList<ArrayList<Integer>> printPattern(int n) 
+    {
+       int n1 = n * (n + 1) ;
+       
+       int start = 1;
+       int end = n1;
+      
+       int row = n * 2;
+           ArrayList< ArrayList<Integer>> ans = new ArrayList<>();
+   int pow = 2;
+    for(int i = 0;i < n;i++)
+    {ArrayList<Integer> list = new ArrayList<>();
+       
+for(int j = 0;j < row / 2;j++)
+{
+list.add(start++);
+}
+ArrayList<Integer> temp = new ArrayList<>();
+for(int j = row / 2;j < row ;j++)
+{
+temp.add( end--);
+}
+Collections.reverse(temp);
+list.addAll(temp);
+ans.add(list);
+row = row - 2;
+    }
+   
+    
+        return ans;
+    }
+}
