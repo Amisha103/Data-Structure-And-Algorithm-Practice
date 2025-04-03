@@ -1,0 +1,97 @@
+Rotten Oranges
+Difficulty: MediumAccuracy: 46.02%Submissions: 167K+Points: 4Average Time: 20m
+Given a matrix mat[][] of dimension n * m where each cell in the matrix can have values 0, 1 or 2 which has the following meaning:
+0 : Empty cell
+1 : Cell have fresh oranges
+2 : Cell have rotten oranges
+
+We have to determine what is the earliest time after which all the oranges are rotten. A rotten orange at index (i, j) can rot other fresh orange at indexes (i-1, j), (i+1, j), (i, j-1), (i, j+1) (up, down, left and right) in a unit time.
+
+Note: Your task is to return the minimum time to rot all the fresh oranges. If not possible returns -1.
+
+Examples:
+
+Input: mat[][] = [[0, 1, 2], [0, 1, 2], [2, 1, 1]]
+Output: 1
+Explanation: Oranges at positions (0,2), (1,2), (2,0) will rot oranges at (0,1), (1,1), (2,2) and (2,1) in unit time.
+Input: mat[][] = [[2, 2, 0, 1]]
+Output: -1
+Explanation: Oranges at (0,0) and (0,1) can't rot orange at (0,3).
+Input: mat[][] = [[2, 2, 2], [0, 2, 0]]
+Output: 0
+Explanation: There is no fresh orange. 
+Constraints:
+1 ≤ mat.size() ≤ 500
+1 ≤ mat[0].size() ≤ 500
+mat[i][j] = {0, 1, 2} 
+
+
+Solution-
+
+
+class Solution {
+    public int orangesRotting(int[][] mat) {
+        int n = mat.length;
+        int m = mat[0].length;
+        int cntFresh = 0;
+
+        Queue<Pair> q = new LinkedList<>();
+
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (mat[i][j] == 1) {
+                    cntFresh++;
+                } else if (mat[i][j] == 2) {
+                    q.add(new Pair(i, j));
+                }
+            }
+        }
+
+        
+        if (cntFresh == 0) return 0;
+
+        int cnt = 0;
+        int dx[] = {-1, 1, 0, 0};
+        int dy[] = {0, 0, -1, 1};
+
+        while (!q.isEmpty()) {
+            int size = q.size();
+            boolean rotten = false;
+
+            for (int k = 0; k < size; k++) {
+                Pair it = q.poll();
+                int row = it.i;
+                int col = it.j;
+
+                for (int i = 0; i < 4; i++) {
+                    int newRow = row + dx[i];
+                    int newCol = col + dy[i];
+
+                    if (isValid(mat, newRow, newCol, n, m)) {
+                        q.add(new Pair(newRow, newCol));
+                        mat[newRow][newCol] = 2;
+                        cntFresh--;
+                        rotten = true;
+                    }
+                }
+            }
+            
+            if (rotten) cnt++;
+        }
+
+        return cntFresh == 0 ? cnt : -1;
+    }
+
+    boolean isValid(int[][] mat, int i, int j, int n, int m) {
+        return i >= 0 && j >= 0 && i < n && j < m && mat[i][j] == 1;
+    }
+}
+
+class Pair {
+    int i, j;
+    Pair(int i, int j) {
+        this.i = i;
+        this.j = j;
+    }
+}
