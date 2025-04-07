@@ -1,0 +1,55 @@
+Directed Graph Cycle
+Difficulty: MediumAccuracy: 27.88%Submissions: 463K+Points: 4
+Given a Directed Graph with V vertices (Numbered from 0 to V-1) and E edges, check whether it contains any cycle or not.
+The graph is represented as a 2D vector edges[][], where each entry edges[i] = [u, v] denotes an edge from verticex u to v.
+
+Examples:
+
+Input: V = 4, edges[][] = [[0, 1], [1, 2], [2, 3], [3, 3]]
+
+
+
+Output: true
+Explanation: 3 -> 3 is a cycle
+Input: V = 3, edges[][] = [[0, 1], [1, 2]]
+
+
+
+Output: false
+Explanation: no cycle in the graph
+Constraints:
+1 ≤ V, E ≤ 105
+
+Solution-
+
+class Solution {
+    public String longestCommonPrefix(String arr[]) {
+    String min = "";
+    int minlength = Integer.MAX_VALUE;
+ int n = arr.length;
+ for(int i = 0;i < n;i++)
+ {
+     if(minlength > arr[i].length() )
+     {
+         minlength = arr[i].length();
+         min = arr[i];
+     }
+ }
+ String ans = "";
+ for(int i = 0;i < minlength;i++)
+ {
+     char c = min.charAt(i);
+     for(int j = 0;j < n;j++)
+     {
+         char ch = arr[j].charAt(i);
+         if(c != ch)
+         {
+             return ans;
+         }
+     }
+     ans = ans + c;
+ }
+ return ans;
+    }
+    
+}
